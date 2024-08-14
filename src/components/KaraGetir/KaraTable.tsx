@@ -3,12 +3,16 @@ import { Button, Table, TextInput } from "@mantine/core";
 import { IKaraGetirResponse, IKaraGetirValue } from "@/types/KaraGetir";
 import { Textarea } from "@mantine/core";
 import { useSetState } from "@mantine/hooks";
+import { sendToKara } from "@/services/kara.service";
+import { useState } from "react";
 
 interface IProps {
   data: IKaraGetirResponse;
 }
 
 const KaraTable = ({ data }: IProps) => {
+  const [tableValues, setTableValues] = useState(data.value);
+
   const initalData = {
     Id: 0,
     Adi: "",
@@ -27,6 +31,7 @@ const KaraTable = ({ data }: IProps) => {
     "ULke Adı": "",
   };
   const [selected, setSelected] = useSetState<IKaraGetirValue>(initalData);
+
   const replaceNullWithEmptyString = (data: IKaraGetirValue) => {
     return Object.fromEntries(
       Object.entries(data).map(([key, value]) => [
@@ -39,13 +44,13 @@ const KaraTable = ({ data }: IProps) => {
   const handleSetValues = (elem: IKaraGetirValue) => {
     setSelected(replaceNullWithEmptyString(elem));
   };
-  const keys = Object.keys(data.value[0]);
+  const keys = Object.keys(tableValues[0]);
 
   const tHeads = keys.map((key, index) => (
     <Table.Th key={index}>{key}</Table.Th>
   ));
 
-  const rows = data.value.map((element, index) => {
+  const rows = tableValues.map((element, index) => {
     const values = Object.values(element);
     return (
       <Table.Tr
@@ -64,11 +69,38 @@ const KaraTable = ({ data }: IProps) => {
     );
   });
 
-
-
-  
-  const handleSubmit = () => {
-
+  const handleSubmit = async () => {
+    if (!selected.Adi || !selected.Soy || !selected.Aciklama) {
+      console.log("yoklar", selected);
+      alert("Lütfen eksik alanları doldurun.");
+      return;
+    }
+    try {
+      const resp = await sendToKara({
+        db_Id: 9,
+        Id: selected.Id,
+        Adi: selected.Adi,
+        Soy: selected.Soy,
+        Aciklama: selected.Aciklama,
+      });
+      setTableValues((prevValues) => {
+        const index = prevValues.findIndex((elem) => elem.Id === selected.Id);
+        if (index !== -1) {
+          const updatedValues = [...prevValues];
+          updatedValues[index] = {
+            ...updatedValues[index],
+            ...selected,
+          };
+          return updatedValues;
+        }
+        return [
+          ...prevValues,
+          { ...selected, Id: Number(resp.value.split(" ")[0]) },
+        ];
+      });
+    } catch (error) {
+      alert("Data eklenemedi.");
+    }
   };
   return (
     <div className="px-5">
@@ -163,7 +195,7 @@ const KaraTable = ({ data }: IProps) => {
                 <Button color="grape" onClick={() => setSelected(initalData)}>
                   Yeni Oluştur
                 </Button>
-                <Button>Gönder</Button>
+                <Button onClick={handleSubmit}>Gönder</Button>
               </div>
             </div>
           </div>

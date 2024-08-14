@@ -1,4 +1,5 @@
 import api from "@/request/api";
+import { IKaraEkleRequest, IKaraEkleResponse } from "@/types/KaraEkle";
 import { IKaraGetirResponse } from "@/types/KaraGetir";
 
 const KaraData = {
@@ -11,7 +12,7 @@ export const getKaraGetir = async (): Promise<IKaraGetirResponse> => {
     return response.data;
 };
 
-export const sendKara = async (): Promise<IKaraGetirResponse> => {
-    const response = (await api.post(`/Kara/Getir_Kod`, KaraData));
+export const sendToKara = async (data: IKaraEkleRequest): Promise<IKaraEkleResponse> => {
+    const response = (await api.post(`/Kara/Ekle`, data));
     return response.data;
 };
