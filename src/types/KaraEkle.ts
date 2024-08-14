@@ -6,7 +6,7 @@ export interface IKaraEkleRequest {
     Aciklama: string
 }
 
-export interface IKaraEkleRespoonse {
+export interface IKaraEkleResponse {
     isSucceded: boolean
     message: any
     messageList: any[]

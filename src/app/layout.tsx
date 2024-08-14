@@ -5,6 +5,7 @@ import "@mantine/core/styles.css";
 import "@mantine/charts/styles.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { theme } from "@/../theme";
+import SideBar from "@/components/Navigation/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,7 +30,14 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <main className="flex justify-end">
+            <SideBar />
+            <div className="xl:w-5/6 w-full pl-2 pt-4 overflow-hidden">
+              {children}
+            </div>
+          </main>
+        </MantineProvider>
       </body>
     </html>
   );

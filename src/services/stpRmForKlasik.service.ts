@@ -1,5 +1,5 @@
 import api from "@/request/api";
-import { IStpRmforKlasikRequest } from "@/types/StpRmforKlasik";
+import { IStpRmforKlasikRequest, IStpRmforKlasikResponse } from "@/types/StpRmforKlasik";
 
 const StpData: IStpRmforKlasikRequest = {
     "db_Id": 9,
@@ -25,8 +25,7 @@ const StpData: IStpRmforKlasikRequest = {
     "cev_01": null
 }
 
-export const StpRmforKlasik = async (): Promise<any> => {
+export const getStpRmforKlasik = async (): Promise<IStpRmforKlasikResponse> => {
     const response = (await api.post(`/Procedure/StpRmforKlasik_2`, StpData));
-    console.log("response0", response)
-    return response;
+    return response.data;
 };

@@ -1,7 +1,6 @@
 "use client"
 import { Title, Text, Anchor } from "@mantine/core";
 import classes from "./Mantine.module.css";
-import { StpRmforKlasik } from "@/services/stpRmForKlasik.service";
 
 export function Welcome() {
   return (
@@ -17,7 +16,7 @@ export function Welcome() {
           Mantine
         </Text>
       </Title>
-      <button onClick={() => StpRmforKlasik()}> auth</button>
+
       <Text c="dimmed" ta="center" size="lg" maw={580} mx="auto" mt="xl">
         This starter Next.js project includes a minimal setup for server side
         rendering, if you want to learn more on Mantine + Next.js integration

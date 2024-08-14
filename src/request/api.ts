@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     (config: any) => {
         //import token from local storage
-        const authToken = localStorage.getItem('token') || token;
+        const authToken = token;
         //configuring header
         config.headers = {
             'Content-Type': 'application/json',

@@ -12,6 +12,7 @@
     "@mantine/charts": "^7.12.1",
     "@mantine/core": "^7.12.1",
     "@mantine/hooks": "^7.12.1",
+    "@tanstack/react-query": "^5.51.23",
     "axios": "^1.7.3",
     "next": "14.2.5",
     "react": "^18",
